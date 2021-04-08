@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'add_blog_page.dart';
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -14,7 +16,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.red,
       appBar: AppBar(
         backgroundColor: Colors.amber,
-        elevation: 0.0,
+        elevation: 0.3,
         brightness: Brightness.dark,
         centerTitle: true,
         title: Text(
@@ -41,7 +43,8 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.post_add_rounded),
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => AddBlogPage()  ));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => AddBlogPage()));
         },
       ),
     );
@@ -79,7 +82,8 @@ class SingleItem extends StatelessWidget {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter)),
             ),
-          ]),
+          ]
+          ),
           SizedBox(height: 10),
           Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
