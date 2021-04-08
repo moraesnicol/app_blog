@@ -7,6 +7,11 @@ class AddBlogPage extends StatefulWidget {
 }
 
 class _AddBlogState extends State<AddBlogPage> {
+  
+  TextEditingController _titleController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,20 +71,41 @@ class _AddBlogState extends State<AddBlogPage> {
               ),
             ]),
             SizedBox(height: 30),
-            TextFormField(
-              style: GoogleFonts.nunito(color: Colors.red, fontSize: 16.0),
-              decoration: InputDecoration(
-                labelStyle:
-                    GoogleFonts.nunito(color: Colors.green, fontSize: 16),
-                labelText: 'Title',
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.pink, width: 3)),
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.pink, width: 3)),
+            Container(
+              height: 45,
+              child: TextFormField(
+                style: GoogleFonts.nunito(color: Colors.red, fontSize: 16.0),
+                decoration: InputDecoration(
+                  labelStyle:
+                      GoogleFonts.nunito(color: Colors.green, fontSize: 16),
+                  labelText: 'Título',
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.pink, width: 3)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.pink, width: 3)),
+                ),
               ),
-            )
+            ),
+            SizedBox(height: 10),
+            Container(
+              height: 45,
+              child: TextFormField(
+                style: GoogleFonts.nunito(color: Colors.red, fontSize: 16.0),
+                decoration: InputDecoration(
+                  labelStyle:
+                      GoogleFonts.nunito(color: Colors.green, fontSize: 16),
+                  labelText: 'Digite aqui o que você pensa',
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.pink, width: 3)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.pink, width: 3)),
+                ),
+              ),
+            ),
           ],
         ),
       ),
