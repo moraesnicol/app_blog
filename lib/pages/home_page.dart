@@ -34,9 +34,8 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-          onPressed: () {},
-          
-        ),
+        onPressed: () {},
+      ),
     );
   }
 }
@@ -45,9 +44,31 @@ class SingleItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsets.all(15),
       child: Column(
-        children: [],
+        children: [
+          Image(
+            width: MediaQuery.of(context).size.width / 1.1,
+            height: MediaQuery.of(context).size.height / 3.0,
+            image:
+                NetworkImage('https://randomuser.me/api/portraits/men/73.jpg'),
+            fit: BoxFit.cover,
+            // filterQuality: FilterQuality.medium,
+          ),
+          SizedBox(height: 10),
+          Text('Título do post',
+              style: GoogleFonts.roboto(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold)),
+          SizedBox(height: 10),
+          Text('Título do post',
+              style: GoogleFonts.roboto(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold)),
+                  
+        ],
       ),
     );
   }
