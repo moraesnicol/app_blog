@@ -1,8 +1,11 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'add_blog_page.dart';
+import 'blogs.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -10,6 +13,34 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Future<List<Blogs>> _getData() async {
+    List<Blogs> blogsData = [];
+    DatabaseReference reference = FirebaseDatabase.instance.reference();
+    await reference.child('Blogs').once().then((value) {
+      if (value.value != null) {
+        blogsData.clear();
+        var keys = value.value.keys;
+        var data = value.value;
+        for (var singleValue in keys) {
+          blogsData.add(new Blogs(
+              title: data[singleValue]['title'],
+              image: data[singleValue]['image'],
+              desc: data[singleValue]['desc']));
+          blogsData.reversed.toList();
+        }
+      } else {
+        Fluttertoast.showToast(msg: 'nopost uploaded yet');
+      }
+    });
+    return blogsData;
+  }
+
+  //  @override
+  //  void initState() {
+  //   super.initState();
+  //  _getData();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,17 +59,35 @@ class _HomePageState extends State<HomePage> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        child: ListView(
-          physics: BouncingScrollPhysics(),
-          children: [
-            SingleItem(),
-            SingleItem(),
-            SingleItem(),
-            SingleItem(),
-            SingleItem(),
-            SingleItem(),
-          ],
-        ),
+        child: FutureBuilder<List<Blogs>>(
+            future: _getData(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return ListView(
+                  physics: BouncingScrollPhysics(),
+                  children: [
+                    SingleItem(),
+                    SingleItem(),
+                    SingleItem(),
+                    SingleItem(),
+                    SingleItem(),
+                    SingleItem(),
+                  ],
+                );
+              }
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text('noposts uploaded yet', style: GoogleFonts.nunito(color: Colors.yellow, fontSize: 18)),
+                );
+              }
+              return Center(
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.post_add_rounded),
@@ -82,8 +131,7 @@ class SingleItem extends StatelessWidget {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter)),
             ),
-          ]
-          ),
+          ]),
           SizedBox(height: 10),
           Container(
               padding: EdgeInsets.symmetric(horizontal: 10),

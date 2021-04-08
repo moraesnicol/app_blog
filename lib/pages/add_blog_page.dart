@@ -30,6 +30,7 @@ class _AddBlogState extends State<AddBlogPage> {
     });
   }
 
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
