@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "923986164058",
+    "project_id": "appblogger-gabrielnicol",
+    "storage_bucket": "appblogger-gabrielnicol.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:923986164058:android:f3ab9944232ca7378e5b63",
+        "android_client_info": {
+          "package_name": "gabriel.nicol.app_blog"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "923986164058-n12nnkjsh7k8vqro8fhcu7ucov42t066.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUVI0ch3_6BLLz9MV6VUXCM-aHXku-37k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "923986164058-n12nnkjsh7k8vqro8fhcu7ucov42t066.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
