@@ -21,6 +21,7 @@ class _HomePageState extends State<HomePage> {
         blogsData.clear();
         var keys = value.value.keys;
         var data = value.value;
+
         for (var singleValue in keys) {
           blogsData.add(new Blogs(
               title: data[singleValue]['title'],
@@ -36,10 +37,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   //  @override
-  //  void initState() {
-  //   super.initState();
-  //  _getData();
-  // }
+  //   void initState() {
+  //  super.initState();
+  // _getData();
+  //  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,21 +64,20 @@ class _HomePageState extends State<HomePage> {
             future: _getData(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return ListView(
+                return ListView.builder(
+                  itemCount: snapshot.data.length,
+                  reverse:true,
                   physics: BouncingScrollPhysics(),
-                  children: [
-                    SingleItem(),
-                    SingleItem(),
-                    SingleItem(),
-                    SingleItem(),
-                    SingleItem(),
-                    SingleItem(),
-                  ],
+                  itemBuilder: (context, index) {
+                    return SingleItem(data: snapshot.data[index]);
+                  },
                 );
               }
               if (snapshot.hasError) {
                 return Center(
-                  child: Text('noposts uploaded yet', style: GoogleFonts.nunito(color: Colors.yellow, fontSize: 18)),
+                  child: Text('noposts uploaded yet',
+                      style: GoogleFonts.nunito(
+                          color: Colors.yellow, fontSize: 18)),
                 );
               }
               return Center(
@@ -101,6 +101,9 @@ class _HomePageState extends State<HomePage> {
 }
 
 class SingleItem extends StatelessWidget {
+  final Blogs data;
+  SingleItem({Key key, this.data}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -116,8 +119,7 @@ class SingleItem extends StatelessWidget {
               child: Image(
                 width: MediaQuery.of(context).size.width / 1.1,
                 height: MediaQuery.of(context).size.height / 3.0,
-                image: NetworkImage(
-                    'https://randomuser.me/api/portraits/men/73.jpg'),
+                image: NetworkImage(data.image),
                 fit: BoxFit.cover,
                 // filterQuality: FilterQuality.medium,
               ),
@@ -138,13 +140,13 @@ class SingleItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Título do post',
+                  Text(data.title,
                       style: GoogleFonts.roboto(
                           color: Colors.white,
                           fontSize: 22,
                           fontWeight: FontWeight.bold)),
                   SizedBox(height: 5),
-                  Text('Descrição do post',
+                  Text(data.desc,
                       style: GoogleFonts.roboto(
                           color: Colors.blue,
                           fontSize: 16,

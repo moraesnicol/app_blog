@@ -1,6 +1,11 @@
 import 'dart:io';
+import 'dart:math' as math;
 
+import 'package:app_blog/pages/home_page.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -30,7 +35,54 @@ class _AddBlogState extends State<AddBlogPage> {
     });
   }
 
-  
+  //generate 6 random numbers
+  int getNumber() {
+    var rnd = new math.Random();
+    var next = rnd.nextDouble() * 100000;
+    while (next < 100000) {
+      next *= 10;
+    }
+    return next.toInt();
+  }
+
+  Future _uploadBlog() async {
+    if (_image == null) {
+      Fluttertoast.showToast(msg: 'Select Image first ');
+    } else if (_titleController.text == null) {
+      Fluttertoast.showToast(msg: 'Adicione um título');
+    } else if (_descriptionController.text == null) {
+      Fluttertoast.showToast(msg: 'Adicione um post');
+    } else {
+      setState(() {
+        _isLoading = true;
+      });
+      //he the file name will be six random digits.jpg
+      DatabaseReference databaseReference =
+          FirebaseDatabase.instance.reference();
+      Reference storageReference = FirebaseStorage.instance
+          .ref()
+          .child('BlogsImage')
+          .child(getNumber.toString() + '.jpg');
+      //upload the file to storage
+      UploadTask uploadTask = storageReference.putFile(_image);
+      //get url of the uploaded image
+      String downloadUrl = await storageReference.getDownloadURL();
+
+      Map data = {
+        'image': downloadUrl,
+        'desc': _descriptionController.text.toString(),
+        'title': _titleController.text.toString()
+      };
+      //insert data into db
+      await databaseReference.child('Blogs').set(data).whenComplete(() {
+        setState(() {
+          _isLoading = false;
+        });
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomePage()), (route) => false);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,7 +178,7 @@ class _AddBlogState extends State<AddBlogPage> {
             ),
             SizedBox(height: 20),
             TextButton(
-              onPressed: () {},
+              onPressed: _uploadBlog,
               child: Text('Postar', style: GoogleFonts.roboto()),
               style: TextButton.styleFrom(
                   primary: Colors.teal,
