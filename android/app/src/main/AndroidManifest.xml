@@ -1,8 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.app_blog_wordpress">
    <application
-        android:label="app_blog_wordpress"
-        android:icon="@mipmap/ic_launcher">
+        android:label="app_blog"
+        android:icon="@mipmap/ic_launcher"
+        android:requestLegacyExternalStorage="true">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
