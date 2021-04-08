@@ -17,17 +17,32 @@ enum AuthStatus {
 
 class _RootPageState extends State<RootPage> {
   AuthStatus _authStatus = AuthStatus.NotDetermined;
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   Future _checkAuthStatus() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
     User currentUser = auth.currentUser;
     if (currentUser == null) {
       setState(() {
         _authStatus = AuthStatus.NotLoggedIn;
       });
+      _registerUser();
     } else {
       _authStatus = AuthStatus.LoggedIn;
     }
+  }
+
+  Future _registerUser() async {
+    auth.signInAnonymously().then((value) {
+      if (value != null) {
+        setState(() {
+          _authStatus = AuthStatus.LoggedIn;
+        });
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => HomePage()),
+            (route) => false);
+      }
+    });
   }
 
   @override
